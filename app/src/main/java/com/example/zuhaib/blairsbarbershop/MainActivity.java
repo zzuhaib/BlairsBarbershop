@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -19,12 +21,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewDate;
     private TextView textViewTime;
     private DatePickerDialog.OnDateSetListener mDisplaySetListener;
+    private EditText editTextName;
+    private Button submitButton;
+    String name, date, time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textViewDate = (TextView) findViewById(R.id.textview_date);
         textViewTime = (TextView) findViewById(R.id.textview_time);
+        editTextName = (EditText) findViewById(R.id.edittext_name);
+        submitButton = (Button) findViewById(R.id.button_schedule);
 
         textViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,5 +90,21 @@ public class MainActivity extends AppCompatActivity {
                 textViewDate.setText(date);
             }
         };
+
+        submitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                name = editTextName.getText().toString();
+                date = textViewDate.getText().toString();
+                time = textViewTime.getText().toString();
+                showToast(name);
+                showToast(date);
+                showToast(time);
+            }
+        });
+    }
+
+    private void showToast(String text){
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 }
