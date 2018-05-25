@@ -2,6 +2,7 @@ package com.example.zuhaib.blairsbarbershop;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -97,9 +98,16 @@ public class MainActivity extends AppCompatActivity {
                 name = editTextName.getText().toString();
                 date = textViewDate.getText().toString();
                 time = textViewTime.getText().toString();
-                showToast(name);
-                showToast(date);
-                showToast(time);
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"email"});
+                i.putExtra(Intent.EXTRA_SUBJECT, name + " needs to get fresh");
+                i.putExtra(Intent.EXTRA_TEXT   , name + date + time);
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
