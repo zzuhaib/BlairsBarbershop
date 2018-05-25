@@ -1,6 +1,7 @@
 package com.example.zuhaib.blairsbarbershop;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,19 +10,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private TextView textViewDate;
+    private TextView textViewTime;
     private DatePickerDialog.OnDateSetListener mDisplaySetListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textViewDate = (TextView) findViewById(R.id.textview_date);
+        textViewTime = (TextView) findViewById(R.id.textview_time);
 
         textViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +39,39 @@ public class MainActivity extends AppCompatActivity {
                         mDisplaySetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+            }
+        });
+
+        textViewTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Calendar currentTime = Calendar.getInstance();
+                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = currentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog
+                        (MainActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener(){
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute){
+                                String am_pm;
+                                if (selectedHour > 12) {
+                                    selectedHour -= 12;
+                                    am_pm = "PM";
+                                } else if (selectedHour == 0) {
+                                    selectedHour += 12;
+                                    am_pm = "AM";
+                                } else if (selectedHour == 12){
+                                    am_pm = "PM";
+                                }else{
+                                    am_pm = "AM";
+                                }
+                                String time = selectedHour + ":" + selectedMinute + " " + am_pm;
+                                textViewTime.setText(time);
+                            }
+                        }, hour, minute, false);
+                mTimePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                mTimePicker.show();
+
             }
         });
 
