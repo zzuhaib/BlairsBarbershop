@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-                DateTimeRequest dateTimeRequest = new DateTimeRequest(date, time, responseListener);
+                DateTimeRequest dateTimeRequest = new DateTimeRequest(name, date, time, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                 queue.add(dateTimeRequest);
             }
