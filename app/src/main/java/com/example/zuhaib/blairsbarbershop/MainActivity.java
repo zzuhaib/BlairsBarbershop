@@ -1,5 +1,6 @@
 package com.example.zuhaib.blairsbarbershop;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +16,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String name, date, time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Initialization
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textViewDate = (TextView) findViewById(R.id.textview_date);
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.edittext_name);
         submitButton = (Button) findViewById(R.id.button_schedule);
 
+        //Get Date Value
         textViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +60,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mDisplaySetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                String date = month + "/" + dayOfMonth + "/" + year;
+                textViewDate.setText(date);
+            }
+        };
+
+        //Get Time Value
         textViewTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -73,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                                 }else{
                                     am_pm = "AM";
                                 }
-                                String time = selectedHour + ":" + selectedMinute + " " + am_pm;
-                                textViewTime.setText(time);
+                                String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+                                textViewTime.setText(time + " " + am_pm);
                             }
                         }, hour, minute, false);
                 mTimePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -83,31 +103,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mDisplaySetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                String date = month + "/" + dayOfMonth + "/" + year;
-                textViewDate.setText(date);
-            }
-        };
-
+        //Submit button to send email to notify barber
         submitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 name = editTextName.getText().toString();
                 date = textViewDate.getText().toString();
                 time = textViewTime.getText().toString();
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"email"});
-                i.putExtra(Intent.EXTRA_SUBJECT, name + " needs to get fresh");
-                i.putExtra(Intent.EXTRA_TEXT   , name + date + time);
-                try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            Boolean success = jsonResponse.getBoolean("success");
+                            if (success){
+                                new SimpleMail().sendEmail("blairsbarbershop@gmail.com", "Hey Blair, " + name +
+                                        " scheduled an appointment for " + time + " on " + date, "Be sure to give " + name + " the best haircut possible!");
+                                showToast("Appointment scheduled!");
+                            }else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setMessage("This time has already been booked!")
+                                        .setNegativeButton("Please try another time", null)
+                                        .create()
+                                        .show();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                DateTimeRequest dateTimeRequest = new DateTimeRequest(date, time, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                queue.add(dateTimeRequest);
             }
         });
     }
