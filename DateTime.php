@@ -1,13 +1,14 @@
 <?php
-    $connect = mysqli_connect("localhost", "id5863026_barbershop", "barbershop", "id5863026_barbershop");
+    $connect = mysqli_connect("us-cdbr-iron-east-04.cleardb.net", "b907e359df380e", "409e5219", "b907e359df380e");
     
+	$name = $_POST["name"];
     $date = $_POST["date"];
     $time = $_POST["time"];
 
      function scheduleAppointment() {
-        global $connect, $date, $time;
-        $statement = mysqli_prepare($connect, "INSERT INTO user (date, time) VALUES (?, ?)");
-        mysqli_stmt_bind_param($statement, "ss", $date, $time);
+        global $connect, $name, $date, $time;
+        $statement = mysqli_prepare($connect, "INSERT INTO user (name, date, time) VALUES (?, ?, ?)");
+        mysqli_stmt_bind_param($statement, "sss", $name, $date, $time);
         mysqli_stmt_execute($statement);
         mysqli_stmt_close($statement);     
     }

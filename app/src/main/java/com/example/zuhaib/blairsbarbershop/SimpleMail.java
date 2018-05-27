@@ -18,7 +18,7 @@ public class SimpleMail {
     /**CHANGE ACCORDINGLY**/
     private static final String SMTP_HOST_NAME = "smtp.gmail.com"; //can be your host server smtp@yourdomain.com
     private static final String SMTP_AUTH_USER = "blairsbarbershop@gmail.com"; //your login username/email
-    private static final String SMTP_AUTH_PWD  = ""; //password/secret
+    private static final String SMTP_AUTH_PWD  = "barBER319"; //password/secret
 
     private static Message message;
 
