@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextName;
     private Button submitButton;
     String name, date, time;
+    private DateTimeRequest dateTimeRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Initialization

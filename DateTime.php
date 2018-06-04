@@ -1,5 +1,5 @@
 <?php
-    $connect = mysqli_connect("us-cdbr-iron-east-04.cleardb.net", "b907e359df380e", "409e5219", "b907e359df380e");
+    $connect = mysqli_connect("sql111.epizy.com", "epiz_22182747", "barBER319", "epiz_22182747_blairsbarbershop");
     
 	$name = $_POST["name"];
     $date = $_POST["date"];
@@ -35,6 +35,7 @@
         scheduleAppointment();
         $response["success"] = true;  
     }
-    
+	
+	header('Content-Type: application/json');
     echo json_encode($response);
 ?>
