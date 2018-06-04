@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/allerta</item>
+        <item>@font/armata</item>
+        <item>@font/basic</item>
+        <item>@font/domine</item>
+        <item>@font/libre_franklin</item>
+    </array>
+</resources>
