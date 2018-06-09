@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/background_color">
+    android:background="@color/darkBlue">
 
     <TextView
         android:id="@+id/textview_time"
-        android:layout_width="163dp"
+        android:layout_width="201dp"
         android:layout_height="34dp"
         android:layout_marginBottom="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="Select a time"
+        android:drawableLeft="@drawable/ic_access_time_black_24dp"
+        android:text=" Select a time"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         app:fontFamily="@font/libre_franklin"
@@ -27,7 +28,7 @@
 
     <TextView
         android:id="@+id/textview_date"
-        android:layout_width="163dp"
+        android:layout_width="198dp"
         android:layout_height="34dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -35,7 +36,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="Select a date"
+        android:drawableLeft="@drawable/ic_date_range_black_24dp"
+        android:text=" Select a date"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         app:fontFamily="@font/libre_franklin"
@@ -48,13 +50,14 @@
 
     <EditText
         android:id="@+id/edittext_name"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
+        android:layout_width="225dp"
+        android:layout_height="62dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
+        android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -81,7 +84,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.433"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/backgroundbutton"
+        android:textColor="@color/colorWhite"
+        android:drawableLeft="@drawable/ic_send_black_24dp"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -95,5 +101,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/barber" />
+
+    <TextView
+        android:id="@+id/textView_GoogleCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add event to Google Calendar?"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        app:fontFamily="@font/libre_franklin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_schedule" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,11 +19,26 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.EventReminder;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.text.DateFormatSymbols;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -31,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewTime;
     private DatePickerDialog.OnDateSetListener mDisplaySetListener;
     private EditText editTextName;
+    private TextView textViewCalendarEvent;
     private Button submitButton;
     String name, date, time;
     private DateTimeRequest dateTimeRequest;
@@ -43,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         textViewTime = (TextView) findViewById(R.id.textview_time);
         editTextName = (EditText) findViewById(R.id.edittext_name);
         submitButton = (Button) findViewById(R.id.button_schedule);
+        textViewCalendarEvent = (TextView) findViewById(R.id.textView_GoogleCalendar);
 
         //Get Date Value
         textViewDate.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
-                String date = month + "/" + dayOfMonth + "/" + year;
+                String nameMonth = new DateFormatSymbols().getMonths()[month-1];
+
+                String date = year + "-" + month + "-" + dayOfMonth;
                 textViewDate.setText(date);
             }
         };
@@ -138,6 +157,29 @@ public class MainActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                 queue.add(dateTimeRequest);
             }
+        });
+
+        //Set Google Calendar
+        textViewCalendarEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                date = textViewDate.getText().toString();
+                time = textViewTime.getText().toString();
+
+                try {
+                    Date fullDate = new SimpleDateFormat("yyyy-MM-dd-HH:mm a").parse(date+"-"+time);
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra("beginTime", fullDate.getTime());
+                    intent.putExtra("allDay", false);
+                    intent.putExtra("title", "Haircut");
+                    intent.putExtra("endTime", fullDate.getTime()+60*60*1000);
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
         });
     }
 
