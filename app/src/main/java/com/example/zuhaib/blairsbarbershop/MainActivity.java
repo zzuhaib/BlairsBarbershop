@@ -4,12 +4,10 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,7 +23,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
-import org.mortbay.jetty.Main;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -173,10 +170,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clickInstagramIcon(){
+        //Direct user to instagram page
         imageViewInstagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("https://www.instagram.com/champagnepapi/?hl=en");
+                Uri uri = Uri.parse("https://www.instagram.com/bilalsbarbershop/");
                 Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
                 likeIng.setPackage("com.instagram.android");
@@ -185,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(likeIng);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://www.instagram.com/champagnepapi/?hl=en")));
+                            Uri.parse("https://www.instagram.com/bilalsbarbershop/")));
                 }
             }
         });
@@ -216,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clickInfoButton(){
+        //Information alert dialog for application
         imageViewInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
