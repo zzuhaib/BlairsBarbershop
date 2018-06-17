@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Bilals Barbershop");
-                builder.setMessage("Hours of Operation: \nMon-Fri: 6pm-11pm \nSat-Sun: 9am-10pm\n\nDeveloped by Zuhaib\nLogo design by KajanKajan\n\nContact us @ blairsbarbershop@gmail.com for any inquiries")
+                builder.setMessage("Hours of Operation: \nMon-Fri: 6pm-11pm \nSat-Sun: 9am-10pm\n\nService fee: $15\n\nDeveloped by Zuhaib\nLogo design by KajanKajan\n\nContact us @ blairsbarbershop@gmail.com for any inquiries")
                         .setNegativeButton("Got it!", null)
                         .create()
                         .show();
